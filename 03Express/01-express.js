@@ -1,6 +1,20 @@
 const express = require('express');
 const app = express();
 const port = 3005;
+//Conexión a base de datos
+const mongoose = require('mongoose');
+//Variables que tendremos siempre:
+//Lo correcto será declararlas EN VARIABLES DE ENTORNO
+//para que nadie vea directamente nuestras credenciales
+const user = 'cursonode';
+const password = 'F0GlDTyX0lO6LH4g';
+const dbname = 'dbpokemon';
+const uri = `mongodb+srv://${user}:${password}@cluster0.h5usq7k.mongodb.net/${dbname}?retryWrites=true&w=majority`; //URL de conexión, que completaremos luego
+mongoose.connect(uri,
+  { useNewUrlParser: true, useUnifiedTopology: true }
+)
+  .then(() => console.log('Base de datos conectada'))
+  .catch(e => console.log(e));
 //Plantilla
 app.set('views',__dirname+'/views');
 app.set('view engine','ejs');
