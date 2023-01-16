@@ -1,6 +1,10 @@
 const express = require('express');
+const bodyParser  = require('body-parser');
 const app = express();
-const port = 3005;
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
+require('dotenv').config();
+const port = process.env.PORT||3005;
 //Conexión a base de datos
 const mongoose = require('mongoose');
 //Variables que tendremos siempre:
@@ -9,7 +13,7 @@ const mongoose = require('mongoose');
 const user = 'cursonode';
 const password = 'F0GlDTyX0lO6LH4g';
 const dbname = 'dbpokemon';
-const uri = `mongodb+srv://${user}:${password}@cluster0.h5usq7k.mongodb.net/${dbname}?retryWrites=true&w=majority`; //URL de conexión, que completaremos luego
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.h5usq7k.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`; //URL de conexión, que completaremos luego
 mongoose.connect(uri,
   { useNewUrlParser: true, useUnifiedTopology: true }
 )
@@ -36,7 +40,7 @@ app.use((req,res)=>{
 });**/
 // Llamadas a las rutas
 app.use("/", require("./router/rutas"));
-app.use("/", require("./router/pokemon"));
+app.use("/pokemon", require("./router/pokemon"));
 
 
 // Si no se encuentra el recurso (Error 404) con página personalizada
